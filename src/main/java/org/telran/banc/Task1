@@ -1,0 +1,7 @@
+1) Create spring boot application
+2) @Service, @Component, @RestController
+3) Spring data JPA + Hiberbate : @Entity, @Repository
+4) User, Account - Controller, Service, Repository
+5) USER - getAll, create, getById, remove
+6) Account - getAllByUser, createForUser, remove
+7) Account fields (id, number, amount, currency)
