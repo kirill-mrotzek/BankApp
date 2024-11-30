@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS users (
+id VARCHAR(128) PRIMARY KEY,
+    expired BIT
+    );
