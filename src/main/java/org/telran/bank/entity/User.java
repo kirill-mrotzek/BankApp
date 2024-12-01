@@ -63,5 +63,13 @@ public class User {
         return username;
     }
 
+    public @NotNull String getPassword() {
+        return password;
+    }
+
+    public void setPassword(@NotNull String password) {
+        this.password = password;
+    }
+
 }
 

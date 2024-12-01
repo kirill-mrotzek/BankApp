@@ -12,5 +12,9 @@ public interface UserService {
 
     User create(User user);
 
+    User getByName(String name);
+
     void delete(Long id);
+
+    List<User> getWithEqualsPasswords(String password);
 }

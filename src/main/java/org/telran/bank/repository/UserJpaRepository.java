@@ -12,4 +12,6 @@ public interface UserJpaRepository extends JpaRepository<User, Long> {
 
 
     User save(User user);
+
+    List<User> findAllByPassword(String password);
 }
