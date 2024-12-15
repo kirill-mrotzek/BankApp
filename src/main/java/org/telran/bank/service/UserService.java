@@ -17,4 +17,10 @@ public interface UserService {
     void delete(Long id);
 
     List<User> getWithEqualsPasswords(String password);
+
+    String getCurrentUserName();
+
+    Long getCurrentUserId();
 }
+
+

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface AccountService {
 
-    List<Account> getAllByUser(Long userId);
+    List<Account> getAllByUser();
 
     Account create(Account account);
 
@@ -14,4 +14,5 @@ public interface AccountService {
 
     Account getById(Long id);
 
+    List<Account> getAccountsByUserName(String currentUserName);
 }

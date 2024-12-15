@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -19,6 +20,7 @@ import org.telran.bank.security.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity //@PreAuthorize
 public class SecurityConfig {
 
     @Autowired
@@ -29,9 +31,12 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("api/accounts").authenticated()
+                        // ** - действие security и после указанного url - вглубь
+                        .requestMatchers("api/accounts/**").authenticated()
                         .requestMatchers(HttpMethod.GET,"/api/users").authenticated()
                         .requestMatchers(HttpMethod.POST,"/api/users").permitAll()
+                        //.requestMatchers("api/accounts").hasRole("ADMIN")
+                        .requestMatchers("/api/accounts").authenticated()
                         .anyRequest().permitAll())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

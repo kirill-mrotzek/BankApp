@@ -26,7 +26,7 @@ public class UserDataServiceImpl implements UserDetailsService {
         org.springframework.security.core.userdetails.User user = new org.springframework.security.core.userdetails.User( //новый объект User (Spring Security)
                 userEntity.getUsername(),
                 userEntity.getPassword(), //BCrypt
-                List.of(new SimpleGrantedAuthority("USER")));
+                List.of(new SimpleGrantedAuthority(userEntity.getRole().name())));
 
         return user;
     }

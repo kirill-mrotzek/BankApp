@@ -31,7 +31,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.username());
 
         String token = jwtService.generateToken(userDetails);
-
+        //jwt.io - to check token
         return new JwtAuthenticationResponse(token);
     }
 }

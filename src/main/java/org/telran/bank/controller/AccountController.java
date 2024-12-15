@@ -1,9 +1,11 @@
 package org.telran.bank.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.telran.bank.entity.Account;
 import org.telran.bank.service.AccountService;
+import org.telran.bank.service.UserService;
 
 import java.util.List;
 
@@ -14,14 +16,22 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @GetMapping("/user/{userId}")
-    public List<Account> getAllByUser(@PathVariable Long userId) {
-        return accountService.getAllByUser(userId);
+    @Autowired
+    private UserService userService;
+
+    @GetMapping()
+    @PreAuthorize("hasRole('ROLE_ADMIN')") //when role starts with ROLE_
+    //@PreAuthorize("hasAnyAuthority('ADMIN')") //when role starts without ROLE_
+    public List<Account> getAllByUser() {
+        return accountService.getAllByUser();
     }
 
-    @GetMapping
+    @GetMapping("/current")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    //@PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public Account getById(@PathVariable (name = "id") Long id) {
-        return accountService.getById(id);
+        Long currentUserId = userService.getCurrentUserId();
+        return null;
     }
 
     @PostMapping

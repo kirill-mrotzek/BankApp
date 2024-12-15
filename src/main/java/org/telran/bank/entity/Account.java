@@ -2,14 +2,9 @@ package org.telran.bank.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.telran.bank.enums.Currency;
 
-@Getter
-@Setter
-@NoArgsConstructor
+
 @Entity
 public class Account {
     @Id
@@ -36,6 +31,10 @@ public class Account {
         this.accountNumber = accountNumber;
         this.amount = amount;
         this.currency = currency;
+    }
+
+    public Account() {
+        //
     }
 
     public Long getId() {

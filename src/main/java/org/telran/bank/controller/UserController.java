@@ -40,15 +40,21 @@ public class UserController {
 
     @PostMapping("/create")
     public UserResponseDto create(@RequestBody @Valid UserCreateDto userDto) {
+        System.out.println("Received UserCreateDto: " + userDto);
+
         User user = createConverter.toEntity(userDto);
+        System.out.println("Converted User: " + user);
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User userFromDatabase = userService.create(user);
+
+        System.out.println("Saved User: " + userFromDatabase);
         UserResponseDto dto = createConverter.toDto(userFromDatabase);
         return dto;
     }
 
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public JwtAuthenticationResponse login(@RequestBody SignInRequest request) {
         return authenticationService.authenticate(request);
     }

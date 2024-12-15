@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String header = request.getHeader("Authorization");
 
-            if (header == null || !header.startsWith("Bearer ")) {
+            if (StringUtils.isEmpty(header) || !header.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -38,13 +39,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String jwt = header.substring("Bearer ".length());
         String userName = jwtService.extractUserName(jwt);
 
-        if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (!userName.isEmpty() &&
+                SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
 
             if (jwtService.isTokenValid(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails, null, userDetails.getAuthorities());
+                        new UsernamePasswordAuthenticationToken(userDetails,
+                                null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         }

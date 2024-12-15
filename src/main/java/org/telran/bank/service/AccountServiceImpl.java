@@ -14,9 +14,13 @@ public class AccountServiceImpl implements AccountService{
     @Autowired
     private AccountJpaRepository accountJpaRepository;
 
+    @Autowired
+    private  UserService userService;
+
     @Override
-    public List<Account> getAllByUser(Long userId) {
-        return accountJpaRepository.findByUserId(userId);
+    public List<Account> getAllByUser() {
+        Long currentUserId = userService.getCurrentUserId();
+        return accountJpaRepository.findByUserId(currentUserId);
     }
 
     @Override
@@ -38,7 +42,13 @@ public class AccountServiceImpl implements AccountService{
     // Метод для получения аккаунта по id
     @Override
     public Account getById(Long id) {
-        return accountJpaRepository.findById(id)
+        return accountJpaRepository
+                .findById(id)
                 .orElseThrow(() -> new AccountNotFoundException("Account with id " + id + " not found"));
+    }
+
+    @Override
+    public List<Account> getAccountsByUserName(String currentUserName) {
+        return List.of();
     }
 }
